@@ -2,7 +2,6 @@ import PageContainer from '@component/PageContainer/PageContainer';
 import RootContainer from '@component/RootContainer/RootContainer';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import { CurrentPageProvider } from '@shared/context/CurrentPageContext'
 import DefaultTheme from '@shared/DefaultTheme';
 import history from '@shared/history';
 import * as React from 'react';
@@ -15,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const Routes = () => (
   <Switch>
-    <Route path="/" exact component={() => <CurrentPageProvider><PageContainer /></CurrentPageProvider>} />
+    <Route path="/" exact component={() => <PageContainer />} />
     <Route render={() => <div>Not found</div>} />
   </Switch>
 );
