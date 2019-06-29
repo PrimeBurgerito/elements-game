@@ -1,9 +1,10 @@
-import { CurrentPage } from '@component/PageContainer/PageContainer'
+import { CurrentPage } from '@component/PageContainer/PageContainer';
 import ElementsCard from '@component/ui/ElementsCard';
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CharacterTemplateApi from '@shared/api/CharacterTemplateApi';
+import GameStateApi from '@shared/api/GameStateApi';
 import GameDataContext from '@shared/context/GameDataContext';
 import { ICharacterTemplate } from '@type/characterTemplate';
 import * as React from 'react';
@@ -27,6 +28,13 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
     });
   }, []);
 
+  const handleCreateCharacterClick = async () => {
+    const characterCreated = await GameStateApi.create({characterTemplateId: characterTemplates[currentTemplate].id});
+    if (characterCreated) {
+      props.setCurrentPage(CurrentPage.GAME);
+    }
+  };
+
   const renderCharacterImage = () => {
     return characterTemplates[currentTemplate].images ?
       <img src={`http://www.localhost:80/${characterTemplates[currentTemplate].images[currentImage].fileName}`}
@@ -34,9 +42,19 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
   };
 
   const renderCharacterTemplate = (): JSX.Element => {
-    console.log(currentImage);
+    const nextTemplate = () => {
+      const next = currentTemplate + 1 >= characterTemplates.length ? 0 : currentTemplate + 1;
+      setCurrentTemplate(next);
+    };
+    const lastTemplate = () => {
+      const last = currentTemplate - 1 < 0 ? characterTemplates.length - 1 : currentTemplate - 1;
+      setCurrentTemplate(last);
+    };
+
     return (
       <>
+        <Typography>Choose character template</Typography>
+        <Button onClick={lastTemplate}>Back</Button><Button onClick={nextTemplate}>Next</Button>
         {Object.entries(characterTemplates[currentTemplate].attributes).map(([key, value]) =>
           <Typography key={`attribute-${key}`} variant="overline" display="block" gutterBottom>
             {gameData.attributes.find((attr) => attr.id === key).name}: {value}
@@ -61,7 +79,7 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
       </Grid>
       <Grid item xs={6}>
         <ElementsCard>
-          <Button onClick={() => props.setCurrentPage(CurrentPage.GAME)}>Create character</Button>
+          <Button onClick={handleCreateCharacterClick}>Create character</Button>
         </ElementsCard>
       </Grid>
     </Grid>

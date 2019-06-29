@@ -31,7 +31,9 @@ const StartMenuPage = (props: IStartMenuPage): JSX.Element => {
             <Grid item xs={12}>
               <Button onClick={() => props.setCurrentPage(CurrentPage.NEW_CHARACTER)}>New Game</Button>
             </Grid>
-            <Grid item xs={12}><Button>Continue</Button></Grid>
+            <Grid item xs={12}>
+              <Button onClick={() => props.setCurrentPage(CurrentPage.GAME)}>Continue</Button>
+            </Grid>
             <Grid item xs={12}><Button>Log Out</Button></Grid>
           </Grid>
         </ElementsCard>
