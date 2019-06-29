@@ -16,13 +16,13 @@ const borderStyles: CSSProperties = {
   borderImageWidth: '17px',
   borderRadius: '20px',
   padding: 20,
-  imageRendering: 'pixelated',
+  imageRendering: 'pixelated'
 };
 
 const stylesRegular: CSSProperties = {
   backgroundImage: `url(${BackgroundImage})`,
   borderImageSource: `url(${BorderImage})`,
-  ...borderStyles,
+  ...borderStyles
 };
 
 const stylesGrey: CSSProperties = {
@@ -32,19 +32,19 @@ const stylesGrey: CSSProperties = {
   borderImageSlice: '3 3 3 3',
   borderImageWidth: '7px',
   borderRadius: '7px',
-  padding: 12,
+  padding: 12
 };
 
 const stylesGolden: CSSProperties = {
   borderImageSource: `url(${BorderImageGolden})`,
   backgroundImage: `url(${BackgroundImageGolden})`,
-  ...borderStyles,
+  ...borderStyles
 };
 
 const stylesGolden2: CSSProperties = {
   borderImageSource: `url(${BorderImageGolden2})`,
   backgroundImage: `url(${BackgroundImageGolden2})`,
-  ...borderStyles,
+  ...borderStyles
 };
 
 interface IBorderCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -65,7 +65,10 @@ const ElementsCard = (props: IBorderCardProps): JSX.Element => {
     }
   };
 
-  return <div className={props.className} style={selectedType()} {...props}>{props.children}</div>;
+  return <div
+    className={props.className || 'elements-card'}
+    style={selectedType()} {...props}>{props.children}
+  </div>;
 };
 
 export default ElementsCard;

@@ -9,7 +9,7 @@ interface IGameContextProviderProps {
 }
 
 export type ControllerAction =
-  | 'TEST';
+  | 'GAME_STATE';
 
 type GameContextType = [GameState, (action: ControllerAction) => void];
 const GameContext = createContext<GameContextType>([initialGameState, () => null]);
@@ -26,8 +26,8 @@ export const GameContextProvider = (props: IGameContextProviderProps): JSX.Eleme
 
   const controller = (action: ControllerAction) => {
     switch (action) {
-      case 'TEST':
-        ws.test();
+      case 'GAME_STATE':
+        ws.getNewClientGameState();
     }
   };
 

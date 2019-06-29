@@ -1,7 +1,8 @@
 import { TOKEN_STORAGE_KEY } from '@constant/constants';
-import { GameStateDispatcher, test } from '@page/GamePage/GameContext/GameState';
+import { GameStateDispatcher, updateClientGameState } from '@page/GamePage/GameContext/GameState';
 import * as StompJs from '@stomp/stompjs';
 import { Client, IFrame, IMessage, StompSubscription } from '@stomp/stompjs';
+import { IClientGameState } from '@type/ClientGameState';
 
 const WS_BASE_URL = `ws://localhost:${7778}/start-session`;
 
@@ -28,8 +29,8 @@ class ElementsWebsocket {
     this.subscription.unsubscribe();
   }
 
-  public test = () => {
-    this.client.publish({destination: '/session/test', body: 'yay it '});
+  public getNewClientGameState = () => {
+    this.client.publish({destination: '/session/game-state'});
   }
 
   private onWebSocketError = (e) => {
@@ -51,8 +52,8 @@ class ElementsWebsocket {
     console.log('%cWebsocket connection successful: %c' + receipt, 'color: green', 'color: white');
     this.subscription = this.client
       .subscribe(`/user/state/game`, (message: IMessage) => {
-        console.log(message.body);
-        this.gameStateDispatcher(test(message.body));
+        const gameSession = JSON.parse(message.body) as IClientGameState;
+        this.gameStateDispatcher(updateClientGameState(gameSession));
       });
   }
 }

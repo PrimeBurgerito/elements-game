@@ -5,10 +5,10 @@ const styles = (theme: Theme) => createStyles({
   container: {
     'background-color': theme.palette.background.default,
     'height': '100%',
-    '& >div': {
-      height: '100%',
-    },
-  },
+    '& > div': {
+      height: '100%'
+    }
+  }
 });
 
 interface IRootContainerProps extends WithStyles<typeof styles> {
