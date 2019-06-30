@@ -1,5 +1,6 @@
 import { CurrentPage } from '@component/PageContainer/PageContainer';
 import ElementsCard from '@component/ui/ElementsCard';
+import { MEDIA_URL } from '@constant/paths'
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -37,8 +38,8 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
 
   const renderCharacterImage = () => {
     return characterTemplates[currentTemplate].images ?
-      <img src={`http://www.localhost:80/${characterTemplates[currentTemplate].images[currentImage].fileName}`}
-           alt="No image" /> : null;
+      <img src={`${MEDIA_URL}/${characterTemplates[currentTemplate].images[currentImage].fileName}`} alt="No image" />
+      : null;
   };
 
   const renderCharacterTemplate = (): JSX.Element => {

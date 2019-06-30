@@ -33,6 +33,10 @@ class ElementsWebsocket {
     this.client.publish({destination: '/session/game-state'});
   }
 
+  public changeLocation = (locationName: string) => {
+    this.client.publish({destination: '/session/change-location', body: locationName});
+  }
+
   private onWebSocketError = (e) => {
     console.log(e);
   }

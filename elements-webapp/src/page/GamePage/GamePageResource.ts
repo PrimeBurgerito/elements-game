@@ -9,6 +9,17 @@ export const useGamePageStyles = makeStyles({
   characterImage: {
     width: '100%'
   },
+  locationImage: {
+    width: '100%'
+  },
+  locationNameDivider: {
+    width: '50%',
+    margin: 'auto',
+    marginBottom: 15
+  },
+  locationName: {
+    textAlign: 'center'
+  },
   buttonContainer: {
     '& > div': {
       'margin': 'auto',
