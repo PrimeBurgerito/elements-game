@@ -1,7 +1,7 @@
-import { ICharacterStatistics } from '@type/characterTemplate';
+import { ICharacter } from '@type/character';
 import { ILocation } from '@type/Location';
 
 export interface IClientGameState {
-  characterStatistics: ICharacterStatistics;
+  character: ICharacter;
   location: ILocation;
 }

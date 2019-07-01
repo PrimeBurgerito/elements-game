@@ -18,11 +18,16 @@ const GamePage = (): JSX.Element => {
   const [nearbyLocationModalOpen, setNearbyLocationModalOpen] = useState(false);
 
   const renderCharacterImage = (): JSX.Element => {
-    const fileName = gameData.clientGameState.characterStatistics.images.default.fileName;
+    const {fileName} = gameData.clientGameState.character.images.default;
+    const {name} = gameData.clientGameState.character;
     return (
-      <ElementsCard type="golden2">
-        <img className={classes.characterImage} src={`${MEDIA_URL}/${fileName}`} alt="No image" />
-      </ElementsCard>
+      <>
+        <Typography variant="h5" className={classes.characterName}>{name}</Typography>
+        <Divider className={classes.characterNameDivider} />
+        <ElementsCard type="golden2">
+          <img className={classes.characterImage} src={`${MEDIA_URL}/${fileName}`} alt="No image" />
+        </ElementsCard>
+      </>
     );
   };
 
@@ -38,15 +43,15 @@ const GamePage = (): JSX.Element => {
   };
 
   const renderLocation = (): JSX.Element => {
-    const location = gameData.clientGameState.location;
+    const {name, images} = gameData.clientGameState.location;
     return (
       <>
         {renderNearbyLocationsModal()}
-        <Typography className={classes.locationName} variant="h2">{location.name}</Typography>
+        <Typography className={classes.locationName} variant="h2">{name}</Typography>
         <Divider className={classes.locationNameDivider} />
-        {location.images && location.images.length &&
+        {images && images.length &&
         <img onClick={() => setNearbyLocationModalOpen(true)} className={classes.locationImage}
-             src={`${MEDIA_URL}/${location.images[0].fileName}`} alt="No image" />
+             src={`${MEDIA_URL}/${images[0].fileName}`} alt="No image" />
         }
       </>
     );
@@ -56,9 +61,9 @@ const GamePage = (): JSX.Element => {
     <Grid container className={classes.rootContainer}>
       <Grid item xs={3}>
         <ElementsCard>
-          {gameData.clientGameState.characterStatistics ? 'GameState loaded' : 'Loading GameState...'}
+          {gameData.clientGameState.character ? 'GameState loaded' : 'Loading GameState...'}
+          {gameData.clientGameState.character && renderCharacterImage()}
           <Button onClick={() => controller(getGameState())}>UPDATE GAME STATE</Button>
-          {gameData.clientGameState.characterStatistics && renderCharacterImage()}
         </ElementsCard>
       </Grid>
       <Grid item xs={9}>

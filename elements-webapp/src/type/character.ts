@@ -10,6 +10,11 @@ export interface ICharacterTemplate extends IDocumentBase {
 export interface ICharacterStatistics {
   properties: { [id: string]: string };
   attributes: { [id: string]: number };
-  images: { [id: string]: IImage };
   objectives: string[];
+}
+
+export interface ICharacter {
+  name: string;
+  images: { [id: string]: IImage };
+  statistics: ICharacterStatistics;
 }

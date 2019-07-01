@@ -1,5 +1,5 @@
 import { GET } from '@shared/api/request-template/requests';
-import { ICharacterTemplate } from '@type/characterTemplate';
+import { ICharacterTemplate } from '@type/character';
 import { AxiosResponse } from 'axios';
 
 const CHARACTER_TEMPLATE_PATH = '/character-template';

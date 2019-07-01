@@ -17,7 +17,15 @@ export const useGamePageStyles = makeStyles({
     margin: 'auto',
     marginBottom: 15
   },
+  characterNameDivider: {
+    width: '75%',
+    margin: 'auto',
+    marginBottom: 15
+  },
   locationName: {
+    textAlign: 'center'
+  },
+  characterName: {
     textAlign: 'center'
   },
   buttonContainer: {

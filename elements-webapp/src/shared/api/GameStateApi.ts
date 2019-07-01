@@ -5,6 +5,7 @@ const GAME_STATE_PATH = '/game-state';
 
 export interface IGameStateDto {
   characterTemplateId: string;
+  characterName: string;
 }
 
 export default class GameStateApi {

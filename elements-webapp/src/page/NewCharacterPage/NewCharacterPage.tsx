@@ -1,13 +1,14 @@
 import { CurrentPage } from '@component/PageContainer/PageContainer';
 import ElementsCard from '@component/ui/ElementsCard';
-import { MEDIA_URL } from '@constant/paths'
+import { MEDIA_URL } from '@constant/paths';
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import CharacterTemplateApi from '@shared/api/CharacterTemplateApi';
 import GameStateApi from '@shared/api/GameStateApi';
 import GameDataContext from '@shared/context/GameDataContext';
-import { ICharacterTemplate } from '@type/characterTemplate';
+import { ICharacterTemplate } from '@type/character';
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 
@@ -19,6 +20,7 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
   const [characterTemplates, setCharacterTemplates] = useState<ICharacterTemplate[]>([]);
   const [currentTemplate, setCurrentTemplate] = useState<number>(0);
   const [currentImage, setCurrentImage] = useState();
+  const [name, setName] = useState<string>('');
   const [gameData] = useContext(GameDataContext);
 
   useEffect(() => {
@@ -30,14 +32,17 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
   }, []);
 
   const handleCreateCharacterClick = async () => {
-    const characterCreated = await GameStateApi.create({characterTemplateId: characterTemplates[currentTemplate].id});
+    const characterCreated = await GameStateApi.create({
+      characterTemplateId: characterTemplates[currentTemplate].id,
+      characterName: name
+    });
     if (characterCreated) {
-      props.setCurrentPage(CurrentPage.GAME);
+      props.setCurrentPage(CurrentPage.START_MENU);
     }
   };
 
   const renderCharacterImage = () => {
-    return characterTemplates[currentTemplate].images ?
+    return characterTemplates.length && characterTemplates[currentTemplate].images ?
       <img src={`${MEDIA_URL}/${characterTemplates[currentTemplate].images[currentImage].fileName}`} alt="No image" />
       : null;
   };
@@ -81,6 +86,14 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
       <Grid item xs={6}>
         <ElementsCard>
           <Button onClick={handleCreateCharacterClick}>Create character</Button>
+          <TextField
+            id="name-field"
+            label="Name"
+            margin="normal"
+            variant="outlined"
+            value={name}
+            onChange={({target}) => setName(target.value)}
+          />
         </ElementsCard>
       </Grid>
     </Grid>
