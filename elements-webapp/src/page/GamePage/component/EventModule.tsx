@@ -30,6 +30,7 @@ export const useEventModuleStyles = makeStyles({
 
 interface IEventModuleProps {
   currentEvent: IEvent;
+  onNextScene: () => void;
 }
 
 const EventModule = (props: IEventModuleProps): JSX.Element => {
@@ -62,7 +63,7 @@ const EventModule = (props: IEventModuleProps): JSX.Element => {
 
   return (
     <>
-      <Grid className={imageContainer} container justify="center">
+      <Grid className={imageContainer} container justify="center" onClick={() => props.onNextScene()}>
         <Grid item>
           <img src={imageUrl} alt="No image" />
         </Grid>

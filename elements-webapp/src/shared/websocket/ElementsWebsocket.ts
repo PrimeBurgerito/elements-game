@@ -37,6 +37,10 @@ class ElementsWebsocket {
     this.client.publish({destination: '/session/change-location', body: locationName});
   }
 
+  public nextScene = () => {
+    this.client.publish({destination: '/session/update-event'});
+  }
+
   private onWebSocketError = (e) => {
     console.log(e);
   }

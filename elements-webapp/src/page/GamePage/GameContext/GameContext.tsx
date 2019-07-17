@@ -10,8 +10,9 @@ interface IGameContextProviderProps {
 
 export const getGameState = () => ({type: 'GAME_STATE'} as const);
 export const changeLocation = (locationName: string) => ({type: 'CHANGE_LOCATION', value: locationName} as const);
+export const nextScene = () => ({type: 'NEXT_SCENE'} as const);
 
-export type ControllerAction = ReturnType<typeof getGameState | typeof changeLocation>;
+export type ControllerAction = ReturnType<typeof getGameState | typeof changeLocation | typeof nextScene>;
 
 type GameContextType = [GameState, (action: ControllerAction) => void];
 const GameContext = createContext<GameContextType>([initialGameState, () => null]);
@@ -33,6 +34,10 @@ export const GameContextProvider = (props: IGameContextProviderProps): JSX.Eleme
         break;
       case 'CHANGE_LOCATION':
         ws.changeLocation(action.value);
+        break;
+      case 'NEXT_SCENE':
+        ws.nextScene();
+        break;
     }
   };
 

@@ -6,7 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import EventModule from '@page/GamePage/component/EventModule';
 import LocationModule from '@page/GamePage/component/LocationModule';
-import GameContext, { changeLocation, getGameState } from '@page/GamePage/GameContext/GameContext';
+import GameContext, { changeLocation, getGameState, nextScene } from '@page/GamePage/GameContext/GameContext';
 import { useGamePageStyles } from '@page/GamePage/GamePageResource';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -32,7 +32,10 @@ const GamePage = (): JSX.Element => {
 
   const renderMainCardContent = (): JSX.Element => {
     if (gameData.clientGameState.currentEvent) {
-      return <EventModule currentEvent={gameData.clientGameState.currentEvent} />;
+      return <EventModule
+        currentEvent={gameData.clientGameState.currentEvent}
+        onNextScene={() => controller(nextScene())}
+      />;
     } else if (gameData.clientGameState.location) {
       return <LocationModule
         location={gameData.clientGameState.location}
