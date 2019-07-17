@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import App from './App';
 import './main.scss';
 
-window.oncontextmenu = () => false;
+window.oncontextmenu = (e) => e.preventDefault();
 
 console.log('App initiated!');
 
