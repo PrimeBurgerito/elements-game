@@ -41,6 +41,10 @@ class ElementsWebsocket {
     this.client.publish({destination: '/session/update-event'});
   }
 
+  public chooseSceneOption = (idx: number) => {
+    this.client.publish({destination: '/session/update-event', body: idx.toString()});
+  }
+
   private onWebSocketError = (e) => {
     console.log(e);
   }
