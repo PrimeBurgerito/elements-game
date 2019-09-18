@@ -42,9 +42,8 @@ const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
   };
 
   const renderCharacterImage = () => {
-    return characterTemplates.length && characterTemplates[currentTemplate].images ?
-      <img src={`${MEDIA_URL}/${characterTemplates[currentTemplate].images[currentImage].fileName}`} alt="No image" />
-      : null;
+    return characterTemplates.length && characterTemplates[currentTemplate].images &&
+      <img src={`${MEDIA_URL}/${characterTemplates[currentTemplate].images[currentImage].fileName}`} alt="No image" />;
   };
 
   const renderCharacterTemplate = (): JSX.Element => {
