@@ -37,6 +37,10 @@ const dev = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(false),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'

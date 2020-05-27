@@ -1,9 +1,10 @@
-import path from 'path';
-import merge from 'webpack-merge';
-import common from './webpack.common';
+const webpack = require('webpack');
+const {join} = require('path');
+const merge = require('webpack-merge');
+const common = require('./webpack.common.js');
 
-const MAIN_PATH = path.join(__dirname, '..');
-const SRC_PATH = path.join(MAIN_PATH, 'src');
+const MAIN_PATH = join(__dirname, '..');
+const SRC_PATH = join(MAIN_PATH, 'src');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -17,4 +18,10 @@ module.exports = merge(common, {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(true),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+  ]
 });

@@ -5,6 +5,6 @@ import './main.scss';
 
 window.oncontextmenu = (e) => e.preventDefault();
 
-console.log('App initiated!');
+console.info('App initiated!');
 
 ReactDOM.render(<App />, document.getElementById('root'));

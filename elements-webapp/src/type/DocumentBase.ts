@@ -1,5 +1,5 @@
 export default interface IDocumentBase {
-  id?: string;
+  id: string;
   created?: Date;
   createdBy?: string;
   modified?: Date;

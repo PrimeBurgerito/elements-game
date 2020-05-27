@@ -1,9 +1,9 @@
-import { CurrentPage } from '@component/PageContainer/PageContainer';
 import ElementsCard from '@component/ui/ElementsCard';
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import * as React from 'react';
+import { CurrentPage } from '@component/container/PageContainer';
 
 const useStyles = makeStyles({
   buttonContainer: {
@@ -16,11 +16,11 @@ const useStyles = makeStyles({
   }
 });
 
-interface IStartMenuPage {
+type Props = {
   setCurrentPage: (page: CurrentPage) => void;
 }
 
-const StartMenuPage = (props: IStartMenuPage): JSX.Element => {
+const StartMenuPage: React.FC<Props> = (props) => {
   const classes = useStyles({});
 
   return (

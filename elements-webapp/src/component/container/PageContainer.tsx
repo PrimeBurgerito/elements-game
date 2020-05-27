@@ -13,11 +13,13 @@ export enum CurrentPage {
   START_MENU, NEW_CHARACTER, GAME
 }
 
-const PageContainer = (): JSX.Element => {
+const PageContainer: React.FC = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const [currentPage, setCurrentPage] = useState<CurrentPage>(CurrentPage.START_MENU);
 
-  const userLoggedInPages = (): JSX.Element => {
+  const isAuthenticated = (): boolean => Boolean(user && user.username);
+
+  const userLoggedInPages = (): React.ReactElement => {
     switch (currentPage) {
       case CurrentPage.START_MENU:
         return <StartMenuPage setCurrentPage={setCurrentPage} />;
@@ -30,11 +32,7 @@ const PageContainer = (): JSX.Element => {
     }
   };
 
-  const choosePage = (): JSX.Element => {
-    return user && user.username ? userLoggedInPages() : <LoginPage onLogin={setUser} />;
-  };
-
-  return choosePage();
+  return isAuthenticated() ? userLoggedInPages() : <LoginPage onLogin={setUser} />;
 };
 
 export default PageContainer;

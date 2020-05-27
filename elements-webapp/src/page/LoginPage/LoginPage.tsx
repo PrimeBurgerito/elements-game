@@ -16,22 +16,22 @@ const getClasses = makeStyles({
   }
 });
 
-interface ILoginPageProps {
+type Props = {
   onLogin: (user: IUser) => void;
 }
 
-const LoginPage = (props: ILoginPageProps): JSX.Element => {
+const LoginPage: React.FC<Props> = (props) => {
   const classes = getClasses({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLoginSubmit = async () => {
+  const handleLoginSubmit = async (): Promise<void> => {
     await AuthApi.getAuthenticationToken(username, password);
     const user = await UserApi.getCurrentUser();
     if (user && user.username) {
       props.onLogin(user);
     } else {
-      console.log('Could not login');
+      console.error('Login failed!');
     }
   };
 
@@ -40,32 +40,36 @@ const LoginPage = (props: ILoginPageProps): JSX.Element => {
       <Grid item>
         <ElementsCard>
           <Typography variant="h1" gutterBottom>User login</Typography>
-          <Grid container direction="column" justify="center" alignContent="center">
-            <Grid item>
-              <TextField
-                id="username-field"
-                label="Username"
-                margin="normal"
-                variant="outlined"
-                value={username}
-                onChange={({target}) => setUsername(target.value)}
-              />
+          <form>
+            <Grid container direction="column" justify="center" alignContent="center">
+              <Grid item>
+                <TextField
+                  id="username-field"
+                  autoComplete="current-username"
+                  label="Username"
+                  margin="normal"
+                  variant="outlined"
+                  value={username}
+                  onChange={({target}) => setUsername(target.value)}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="password-field"
+                  autoComplete="current-password"
+                  label="Password"
+                  margin="normal"
+                  type="password"
+                  variant="outlined"
+                  value={password}
+                  onChange={({target}) => setPassword(target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} className={classes.loginButtonGrid}>
+                <Button onClick={handleLoginSubmit}>Login</Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <TextField
-                id="password-field"
-                label="Password"
-                margin="normal"
-                type="password"
-                variant="outlined"
-                value={password}
-                onChange={({target}) => setPassword(target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} className={classes.loginButtonGrid}>
-              <Button onClick={handleLoginSubmit}>Login</Button>
-            </Grid>
-          </Grid>
+          </form>
         </ElementsCard>
       </Grid>
     </Grid>

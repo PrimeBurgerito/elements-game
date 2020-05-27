@@ -1,8 +1,5 @@
 import ElementsCard from '@component/ui/ElementsCard';
-import { MEDIA_URL } from '@constant/paths';
-import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import EventModule from '@page/GamePage/component/EventModule';
 import LocationModule from '@page/GamePage/component/LocationModule';
@@ -15,37 +12,24 @@ import GameContext, {
 import { useGamePageStyles } from '@page/GamePage/GamePageResource';
 import * as React from 'react';
 import { useContext } from 'react';
+import CharacterImage from '@page/GamePage/component/CharacterImage';
 
 
-const GamePage = (): JSX.Element => {
+const GamePage: React.FC = () => {
   const classes = useGamePageStyles({});
   const [gameData, controller] = useContext(GameContext);
 
-  const renderCharacterImage = (): JSX.Element => {
-    const {fileName} = gameData.clientGameState.character.images.default;
-    const {name} = gameData.clientGameState.character;
-    return (
-      <>
-        <Typography variant="h5" className={classes.characterName}>{name}</Typography>
-        <Divider className={classes.characterNameDivider} />
-        <ElementsCard type="golden2">
-          <img className={classes.characterImage} src={`${MEDIA_URL}/${fileName}`} alt="No image" />
-        </ElementsCard>
-      </>
-    );
-  };
-
-  const renderMainCardContent = (): JSX.Element => {
-    if (gameData.clientGameState.currentEvent) {
+  const renderMainCardContent = (): React.ReactElement => {
+    if (gameData.resource.currentEvent) {
       return <EventModule
-        currentEvent={gameData.clientGameState.currentEvent}
+        currentEvent={gameData.resource.currentEvent}
         onNextScene={() => controller(nextScene())}
-        onOptionClick={(idx) => controller(chooseSceneOption(idx))}
+        onOptionClick={(idx: number) => controller(chooseSceneOption(idx))}
       />;
-    } else if (gameData.clientGameState.location) {
+    } else if (gameData.resource.location) {
       return <LocationModule
-        location={gameData.clientGameState.location}
-        onLocationChange={(name) => controller(changeLocation(name))}
+        location={gameData.resource.location}
+        onLocationChange={(name: string) => controller(changeLocation(name))}
       />;
     }
   };
@@ -54,8 +38,8 @@ const GamePage = (): JSX.Element => {
     <Grid container className={classes.rootContainer}>
       <Grid item xs={3}>
         <ElementsCard>
-          {gameData.clientGameState.character ? 'GameState loaded' : 'Loading GameState...'}
-          {gameData.clientGameState.character && renderCharacterImage()}
+          {gameData.resource.character ? 'GameState loaded' : 'Loading GameState...'}
+          {gameData.resource.character && <CharacterImage character={gameData.resource.character} />}
           <Button onClick={() => controller(getGameState())}>UPDATE GAME STATE</Button>
         </ElementsCard>
       </Grid>

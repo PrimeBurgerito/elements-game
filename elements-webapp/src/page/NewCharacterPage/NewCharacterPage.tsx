@@ -1,4 +1,3 @@
-import { CurrentPage } from '@component/PageContainer/PageContainer';
 import ElementsCard from '@component/ui/ElementsCard';
 import { MEDIA_URL } from '@constant/paths';
 import { Button } from '@material-ui/core';
@@ -7,93 +6,102 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import CharacterTemplateApi from '@shared/api/CharacterTemplateApi';
 import GameStateApi from '@shared/api/GameStateApi';
-import GameDataContext from '@shared/context/GameDataContext';
-import { ICharacterTemplate } from '@type/character';
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ICharacterTemplate } from '@type/Character';
+import { IProperty } from '@type/Property';
+import { CurrentPage } from '@component/container/PageContainer';
 
-interface INewCharacterPage {
+type TemplateState = [
+  ICharacterTemplate | null,
+  () => void,
+  () => void
+];
+
+type Props = {
   setCurrentPage: (page: CurrentPage) => void;
 }
 
-const NewCharacterPage = (props: INewCharacterPage): JSX.Element => {
+const useTemplateState = (): TemplateState => {
   const [characterTemplates, setCharacterTemplates] = useState<ICharacterTemplate[]>([]);
-  const [currentTemplate, setCurrentTemplate] = useState<number>(0);
-  const [currentImage, setCurrentImage] = useState();
-  const [name, setName] = useState<string>('');
-  const [gameData] = useContext(GameDataContext);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentTemplate, setCurrentTemplate] = useState<ICharacterTemplate>(null);
 
   useEffect(() => {
-    CharacterTemplateApi.find().then((res) => {
+    CharacterTemplateApi.find().then((res: ICharacterTemplate[]) => {
       setCharacterTemplates(res);
-      setCurrentTemplate(0);
-      setCurrentImage(Object.keys(res[currentTemplate].images)[0]);
+      setCurrentTemplate(res[currentIndex]);
     });
   }, []);
 
-  const handleCreateCharacterClick = async () => {
-    const characterCreated = await GameStateApi.create({
-      characterTemplateId: characterTemplates[currentTemplate].id,
+  const next = (): void => {
+    const index = currentIndex + 1 >= characterTemplates.length ? 0 : currentIndex + 1;
+    setCurrentIndex(index);
+    setCurrentTemplate(characterTemplates[index]);
+  };
+
+  const previous = (): void => {
+    const index = currentIndex - 1 < 0 ? characterTemplates.length - 1 : currentIndex - 1;
+    setCurrentIndex(index);
+    setCurrentTemplate(characterTemplates[index]);
+  };
+
+  return [currentTemplate, next, previous];
+};
+
+const NewCharacterPage: React.FC<Props> = (props) => {
+  const [template, next, previous] = useTemplateState();
+  const [name, setName] = useState<string>('');
+
+  const handleCreateCharacterClick = async (): Promise<void> => {
+    const success: boolean = await GameStateApi.create({
+      characterTemplateId: template.id,
       characterName: name
     });
-    if (characterCreated) {
+    if (success) {
       props.setCurrentPage(CurrentPage.START_MENU);
     }
   };
 
-  const renderCharacterImage = () => {
-    return characterTemplates.length && characterTemplates[currentTemplate].images &&
-      <img src={`${MEDIA_URL}/${characterTemplates[currentTemplate].images[currentImage].fileName}`} alt="No image" />;
+  const renderCharacterImage = (): React.ReactElement => {
+    const image = template && Object.values(template.images)[0];
+    return image && <img src={`${MEDIA_URL}/${image.fileName}`} alt="No image" />;
   };
 
-  const renderCharacterTemplate = (): JSX.Element => {
-    const nextTemplate = () => {
-      const next = currentTemplate + 1 >= characterTemplates.length ? 0 : currentTemplate + 1;
-      setCurrentTemplate(next);
-    };
-    const lastTemplate = () => {
-      const last = currentTemplate - 1 < 0 ? characterTemplates.length - 1 : currentTemplate - 1;
-      setCurrentTemplate(last);
-    };
+  const renderProperty = (property: IProperty<unknown>): React.ReactElement =>
+    <Typography key={`property-${property.key}`} variant="overline" display="block" gutterBottom>
+      {property.name}: {property.value}
+    </Typography>;
 
-    return (
-      <>
-        <Typography>Choose character template</Typography>
-        <Button onClick={lastTemplate}>Back</Button><Button onClick={nextTemplate}>Next</Button>
-        {Object.entries(characterTemplates[currentTemplate].attributes).map(([key, value]) =>
-          <Typography key={`attribute-${key}`} variant="overline" display="block" gutterBottom>
-            {gameData.attributes.find((attr) => attr.id === key).name}: {value}
-          </Typography>
-        )}
-        {Object.entries(characterTemplates[currentTemplate].properties).map(([key, value]) =>
-          <Typography key={`property-${key}`} variant="overline" display="block" gutterBottom>
-            {gameData.properties.find((prop) => prop.id === key).name}: {value}
-          </Typography>
-        )}
-        {renderCharacterImage()}
-      </>
-    );
-  };
+  const renderCharacterTemplate = (): React.ReactElement =>
+    <ElementsCard>
+      <Typography>Choose character template</Typography>
+      <Button onClick={previous}>Back</Button><Button onClick={next}>Next</Button>
+      {template?.properties.numericProperties.map(renderProperty)}
+      {template?.properties.stringProperties.map(renderProperty)}
+      {renderCharacterImage()}
+    </ElementsCard>;
+
+  const renderCharacterForm = (): React.ReactElement =>
+    <ElementsCard>
+      <Button onClick={handleCreateCharacterClick}>Create character</Button>
+      <TextField
+        id="name-field"
+        label="Name"
+        margin="normal"
+        variant="outlined"
+        value={name}
+        onChange={({target}) => setName(target.value)}
+      />
+    </ElementsCard>;
 
   return (
     <Grid container>
       <Grid item xs={6}>
-        <ElementsCard>
-          {characterTemplates.length && gameData ? renderCharacterTemplate() : null}
-        </ElementsCard>
+        {renderCharacterTemplate()}
       </Grid>
       <Grid item xs={6}>
-        <ElementsCard>
-          <Button onClick={handleCreateCharacterClick}>Create character</Button>
-          <TextField
-            id="name-field"
-            label="Name"
-            margin="normal"
-            variant="outlined"
-            value={name}
-            onChange={({target}) => setName(target.value)}
-          />
-        </ElementsCard>
+        {renderCharacterForm()}
       </Grid>
     </Grid>
   );

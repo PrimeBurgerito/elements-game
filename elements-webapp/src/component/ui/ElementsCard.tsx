@@ -47,12 +47,12 @@ const stylesGolden2: CSSProperties = {
   ...borderStyles
 };
 
-interface IBorderCardProps extends React.HTMLAttributes<HTMLDivElement> {
+type Props = React.HTMLAttributes<HTMLDivElement> & {
   type?: 'default' | 'grey' | 'golden' | 'golden2';
 }
 
-const ElementsCard = (props: IBorderCardProps): JSX.Element => {
-  const selectedType = () => {
+const ElementsCard: React.FC<Props> = (props) => {
+  const selectedType = (): CSSProperties => {
     switch (props.type) {
       case 'golden':
         return stylesGolden;
@@ -65,10 +65,11 @@ const ElementsCard = (props: IBorderCardProps): JSX.Element => {
     }
   };
 
-  return <div
-    className={props.className || 'elements-card'}
-    style={selectedType()} {...props}>{props.children}
-  </div>;
+  return (
+    <div className={props.className || 'elements-card'} style={selectedType()} {...props}>
+      {props.children}
+    </div>
+  );
 };
 
 export default ElementsCard;

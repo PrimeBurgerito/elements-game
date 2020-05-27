@@ -4,25 +4,21 @@ import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
 import useGameStateReducer from './GameState';
 
-interface IGameContextProviderProps {
-  children: React.ReactChild;
-}
-
 export const getGameState = () => ({type: 'GAME_STATE'} as const);
 export const changeLocation = (locationName: string) => ({type: 'CHANGE_LOCATION', value: locationName} as const);
 export const nextScene = () => ({type: 'NEXT_SCENE'} as const);
 export const chooseSceneOption = (idx: number) => ({type: 'CHOOSE_SCENE_OPTION', value: idx} as const);
 
-export type ControllerAction = ReturnType<typeof getGameState |
-  typeof changeLocation |
-  typeof nextScene |
-  typeof chooseSceneOption>;
+export type ControllerAction = ReturnType<typeof getGameState
+  | typeof changeLocation
+  | typeof nextScene
+  | typeof chooseSceneOption>;
 
 type GameContextType = [GameState, (action: ControllerAction) => void];
 const GameContext = createContext<GameContextType>([initialGameState, () => null]);
 
 
-export const GameContextProvider = (props: IGameContextProviderProps): JSX.Element => {
+export const GameContextProvider: React.FC = (props) => {
   const [state, dispatch] = useGameStateReducer();
   const [ws, setWs] = useState<ElementsWebsocket>();
 
@@ -31,7 +27,7 @@ export const GameContextProvider = (props: IGameContextProviderProps): JSX.Eleme
     return () => ws.disconnect();
   }, []);
 
-  const controller = (action: ControllerAction) => {
+  const controller = (action: ControllerAction): void => {
     switch (action.type) {
       case 'GAME_STATE':
         ws.getNewClientGameState();

@@ -55,7 +55,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Elements',
       template: 'assets/index.html',
-    }),
+    })
   ],
   stats: {
     colors: true
@@ -89,5 +89,8 @@ module.exports = {
       '@images': join(SRC_PATH, 'assets', 'img'),
       '@icons': join(SRC_PATH, 'assets', 'icon')
     },
+  },
+  node: {
+    fs: 'empty'
   }
 };
