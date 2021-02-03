@@ -16,6 +16,9 @@ class ElementsWebsocket {
   constructor(private readonly gameStateDispatcher: GameStateDispatcher) {
     this.client = new StompJs.Client({
       brokerURL: `${WS_BASE_URL}?${qs.stringify({access_token: sessionStorage.getItem(TOKEN_STORAGE_KEY)})}`,
+      connectHeaders: {
+        Authorization: `Bearer ${sessionStorage.getItem(TOKEN_STORAGE_KEY)}`
+      },
       onWebSocketError: ElementsWebsocketUtil.onWebSocketError,
       onWebSocketClose: ElementsWebsocketUtil.onWebSocketClose,
       onStompError: ElementsWebsocketUtil.onHandShakeError,

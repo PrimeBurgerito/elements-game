@@ -8,7 +8,7 @@ import AuthApi from '@shared/api/AuthApi';
 import UserApi from '@shared/api/UserApi';
 import { IUser } from '@type/user';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const getClasses = makeStyles({
   loginButtonGrid: {
@@ -24,6 +24,14 @@ const LoginPage: React.FC<Props> = (props) => {
   const classes = getClasses({});
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    UserApi.getCurrentUser().then((user) => {
+      if (user && user.username) {
+        props.onLogin(user);
+      }
+    });
+  }, []);
 
   const handleLoginSubmit = async (): Promise<void> => {
     await AuthApi.getAuthenticationToken(username, password);

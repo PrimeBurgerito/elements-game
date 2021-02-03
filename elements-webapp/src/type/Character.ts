@@ -1,6 +1,6 @@
 import IDocumentBase from '@type/DocumentBase';
-import { IImage } from '@type/image';
 import { INumericProperty, IStringProperty } from '@type/Property';
+import { IImage } from '@type/Image';
 
 interface ICharacterProperties {
   numericProperties: INumericProperty[];

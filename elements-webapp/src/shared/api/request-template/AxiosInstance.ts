@@ -1,4 +1,4 @@
-import { CLIENT_ID, CLIENT_SECRET, TOKEN_STORAGE_KEY } from '@constant/constants';
+import { TOKEN_STORAGE_KEY } from '@constant/constants';
 import { AUTH_URL, BASE_URL } from '@constant/paths';
 import axios, { AxiosInstance } from 'axios';
 import * as qs from 'qs';
@@ -16,8 +16,4 @@ export const API = (): AxiosInstance => {
 export const authAPI: AxiosInstance = axios.create({
   baseURL: AUTH_URL,
   timeout: 50000,
-  auth: {username: CLIENT_ID, password: CLIENT_SECRET},
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
 });

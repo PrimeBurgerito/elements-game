@@ -19,19 +19,17 @@ const Routes: React.FC = () => (
   </Switch>
 );
 
-const App: React.FC = () => {
-  return (
-    <>
-      <CssBaseline />
-      <ThemeProvider theme={DefaultTheme}>
-        <RootContainer>
-          <Router history={history}>
-            <Routes />
-          </Router>
-        </RootContainer>
-      </ThemeProvider>
-    </>
-  );
-};
+const App: React.FC = () => (
+  <>
+    <CssBaseline />
+    <ThemeProvider theme={DefaultTheme}>
+      <RootContainer>
+        <Router history={history}>
+          <Routes />
+        </Router>
+      </RootContainer>
+    </ThemeProvider>
+  </>
+);
 
 export default hot(App);

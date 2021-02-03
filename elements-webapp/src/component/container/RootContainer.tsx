@@ -11,11 +11,9 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-interface IRootContainerProps extends WithStyles<typeof styles> {
-  children: React.ReactChild;
-}
+type Props = WithStyles<typeof styles>;
 
-export const RootContainer = (props: IRootContainerProps): JSX.Element => {
+export const RootContainer: React.FC<Props> = (props) => {
   return <div id="container" className={props.classes.container}>{props.children}</div>;
 };
 

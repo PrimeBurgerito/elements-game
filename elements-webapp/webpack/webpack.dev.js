@@ -1,6 +1,6 @@
 const {join} = require('path');
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const common = require('./webpack.common.js');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -28,7 +28,9 @@ const dev = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {hmr: true},
+            options: {
+              publicPath: '',
+            }
           },
           'css-loader',
           'sass-loader',
@@ -39,14 +41,17 @@ const dev = {
   plugins: [
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(false),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      process: {
+        env: {
+          NODE_ENV: JSON.stringify('development')
+        }
+      }
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
     }),
-    new webpack.HotModuleReplacementPlugin()
   ]
 };
 
-module.exports = merge.smart(common, dev);
+module.exports = merge(common, dev);

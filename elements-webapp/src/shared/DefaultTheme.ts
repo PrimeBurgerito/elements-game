@@ -3,14 +3,15 @@ import ButtonImageHover from '@images/button-hover.png';
 import ButtonImage from '@images/button.png';
 import HrImage from '@images/hr-golden.png';
 import { createMuiTheme } from '@material-ui/core';
+import * as React from 'react';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
-const textStyle: CSSProperties = {
+const textStyle: React.CSSProperties = {
   textShadow: '-2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000',
   color: '#fff',
 };
 
-const buttonStyle: CSSProperties = {
+const buttonStyle: React.CSSProperties = {
   backgroundSize: '100% 100%',
   border: 'none',
   paddingLeft: '35px !important',
@@ -58,7 +59,7 @@ const DefaultTheme = createMuiTheme({
       },
       root: {
         'background': `url(${ButtonImage}) center no-repeat no-repeat`,
-        ...buttonStyle,
+        ...buttonStyle as CSSProperties,
         '&:hover': {
           background: `url(${ButtonImageHover}) center no-repeat no-repeat`,
           ...buttonStyle,

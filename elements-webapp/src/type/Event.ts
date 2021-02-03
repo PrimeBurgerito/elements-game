@@ -1,4 +1,4 @@
-import { IImage } from '@type/image';
+import { IImage } from '@type/Image';
 
 export type SceneType = 'DEFAULT' | 'OPTION';
 

@@ -1,4 +1,4 @@
-import { IImage } from '@type/image';
+import { IImage } from '@type/Image';
 
 export interface ILocation {
   name: string;
