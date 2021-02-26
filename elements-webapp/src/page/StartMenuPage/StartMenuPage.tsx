@@ -2,7 +2,7 @@ import ElementsCard from '@component/ui/ElementsCard';
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import * as React from 'react';
+import React from 'react';
 import { CurrentPage } from '@component/container/PageContainer';
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ type Props = {
   setCurrentPage: (page: CurrentPage) => void;
 }
 
-const StartMenuPage: React.FC<Props> = (props) => {
+const StartMenuPage: React.FC<Props> = props => {
   const classes = useStyles({});
 
   return (

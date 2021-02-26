@@ -7,12 +7,16 @@ export const initialGameState = {
   resource: {} as IGameStateResource
 };
 
-export const connected = () => ({type: 'CONNECTED', value: true} as const);
-export const test = (value: string) => ({type: 'TEST', value} as const);
-export const updateClientGameState = (value: IGameStateResource) => ({type: 'GAME_STATE', value} as const);
+export const GameStateAction = {
+  connected: () => ({type: 'CONNECTED', value: true} as const),
+  test: (value: string) => ({type: 'TEST', value} as const),
+  updateClientGameState: (value: IGameStateResource) => ({type: 'GAME_STATE', value} as const),
+};
 
 export type GameState = typeof initialGameState;
-type GameAction = ReturnType<typeof test | typeof connected | typeof updateClientGameState>;
+type GameAction = ReturnType<typeof GameStateAction.test
+  | typeof GameStateAction.connected
+  | typeof GameStateAction.updateClientGameState>;
 
 const gameStateReducer = (state: GameState, action: GameAction): GameState => {
   switch (action.type) {

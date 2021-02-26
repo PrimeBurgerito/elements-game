@@ -1,7 +1,6 @@
 import { GameState, initialGameState } from '@page/GamePage/GameContext/GameState';
 import ElementsWebsocket from '@shared/websocket/ElementsWebsocket';
-import * as React from 'react';
-import { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import useGameStateReducer from './GameState';
 
 export const getGameState = () => ({type: 'GAME_STATE'} as const);
@@ -18,7 +17,7 @@ type GameContextType = [GameState, (action: ControllerAction) => void];
 const GameContext = createContext<GameContextType>([initialGameState, () => null]);
 
 
-export const GameContextProvider: React.FC = (props) => {
+export const GameContextProvider: React.FC = props => {
   const [state, dispatch] = useGameStateReducer();
   const [ws, setWs] = useState<ElementsWebsocket>();
 

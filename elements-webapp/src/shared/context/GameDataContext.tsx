@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { IObjective } from '@type/Objective';
 import { INumericProperty, IStringProperty } from '@type/Property';
 import PropertyApi from '@shared/api/PropertyApi';
@@ -12,11 +11,9 @@ interface IGameData {
 }
 
 type GameDataContextType = [IGameData, Dispatch<SetStateAction<IGameData>>];
-// tslint:disable-next-line:no-empty
-const GameDataContext = createContext<GameDataContextType>([null, () => {
-}]);
+const GameDataContext = createContext<GameDataContextType>([null, null]);
 
-export const GameDataProvider: React.FC = (props) => {
+export const GameDataProvider: React.FC = props => {
   const [gameData, setGameData] = useState<IGameData>(null);
 
   useEffect(() => {

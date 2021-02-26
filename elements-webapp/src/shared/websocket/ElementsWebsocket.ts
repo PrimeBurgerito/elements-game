@@ -1,5 +1,5 @@
 import { TOKEN_STORAGE_KEY } from '@constant/constants';
-import { GameStateDispatcher, updateClientGameState } from '@page/GamePage/GameContext/GameState';
+import { GameStateAction, GameStateDispatcher } from '@page/GamePage/GameContext/GameState';
 import * as StompJs from '@stomp/stompjs';
 import { Client, IFrame, IMessage, StompSubscription } from '@stomp/stompjs';
 import * as qs from 'qs';
@@ -52,7 +52,7 @@ class ElementsWebsocket {
     console.debug('Websocket connection successful: ', receipt);
     this.subscription = this.client.subscribe('/user/state/game', (message: IMessage) => {
       const gameSession = JSON.parse(message.body) as IGameStateResource;
-      this.gameStateDispatcher(updateClientGameState(gameSession));
+      this.gameStateDispatcher(GameStateAction.updateClientGameState(gameSession));
     });
   };
 }

@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import AuthApi from '@shared/api/AuthApi';
 import UserApi from '@shared/api/UserApi';
 import { IUser } from '@type/user';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { InputProps as StandardInputProps } from '@material-ui/core/Input/Input';
 
 const getClasses = makeStyles({
   loginButtonGrid: {
@@ -20,13 +20,15 @@ type Props = {
   onLogin: (user: IUser) => void;
 }
 
-const LoginPage: React.FC<Props> = (props) => {
+const LoginPage: React.FC<Props> = props => {
   const classes = getClasses({});
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [userLogin, setUserLogin] = useState({
+    username: '',
+    password: '',
+  });
 
   useEffect(() => {
-    UserApi.getCurrentUser().then((user) => {
+    UserApi.getCurrentUser().then((user: IUser) => {
       if (user && user.username) {
         props.onLogin(user);
       }
@@ -34,13 +36,17 @@ const LoginPage: React.FC<Props> = (props) => {
   }, []);
 
   const handleLoginSubmit = async (): Promise<void> => {
-    await AuthApi.getAuthenticationToken(username, password);
+    await AuthApi.getAuthenticationToken(userLogin.username, userLogin.password);
     const user = await UserApi.getCurrentUser();
     if (user && user.username) {
       props.onLogin(user);
     } else {
       console.error('Login failed!');
     }
+  };
+
+  const handleChange: StandardInputProps['onChange'] = ({target}) => {
+    setUserLogin({...userLogin, [target.name]: target.value});
   };
 
   return (
@@ -57,8 +63,9 @@ const LoginPage: React.FC<Props> = (props) => {
                   label="Username"
                   margin="normal"
                   variant="outlined"
-                  value={username}
-                  onChange={({target}) => setUsername(target.value)}
+                  name="username"
+                  value={userLogin.username}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item>
@@ -69,12 +76,15 @@ const LoginPage: React.FC<Props> = (props) => {
                   margin="normal"
                   type="password"
                   variant="outlined"
-                  value={password}
-                  onChange={({target}) => setPassword(target.value)}
+                  name="password"
+                  value={userLogin.password}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} className={classes.loginButtonGrid}>
-                <Button onClick={handleLoginSubmit}>Login</Button>
+                <Button onClick={handleLoginSubmit} disabled={!userLogin.username || !userLogin.password}>
+                  Login
+                </Button>
               </Grid>
             </Grid>
           </form>

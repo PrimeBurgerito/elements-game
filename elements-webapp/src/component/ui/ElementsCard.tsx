@@ -6,7 +6,7 @@ import BorderImageGolden from '@images/border-image-golden.png';
 import BorderImageGolden2 from '@images/border-image-golden2.png';
 import BorderImageGrey from '@images/border-image-grey.png';
 import BorderImage from '@images/border-image.png';
-import * as React from 'react';
+import React from 'react';
 import { CSSProperties } from 'react';
 
 const borderStyles: CSSProperties = {

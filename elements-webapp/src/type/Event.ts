@@ -2,7 +2,7 @@ import { IImage } from '@type/Image';
 
 export type SceneType = 'DEFAULT' | 'OPTION';
 
-export interface IEvent {
+export interface IScene {
   text: string;
   image: IImage;
   type: SceneType;

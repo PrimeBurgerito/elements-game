@@ -1,14 +1,15 @@
 import RootContainer from '@component/Container/RootContainer';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
+import { hot } from 'react-hot-loader/root';
 import DefaultTheme from '@shared/DefaultTheme';
 import history from '@shared/config/history';
-import * as React from 'react';
-import { hot } from 'react-hot-loader/root';
+import React from 'react';
 import { Route, Router, Switch } from 'react-router';
 import PageContainer from '@component/container/PageContainer';
 
 if (process.env.NODE_ENV !== 'production') {
+  // tslint:disable-next-line:no-console
   console.log('Looks like we are in development mode!');
 }
 

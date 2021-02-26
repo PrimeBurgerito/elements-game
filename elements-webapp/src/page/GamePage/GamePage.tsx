@@ -1,7 +1,7 @@
 import ElementsCard from '@component/ui/ElementsCard';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import EventModule from '@page/GamePage/component/EventModule';
+import EventModule from '@page/GamePage/component/EventModule/EventModule';
 import LocationModule from '@page/GamePage/component/LocationModule';
 import GameContext, {
   changeLocation,
@@ -10,8 +10,7 @@ import GameContext, {
   nextScene
 } from '@page/GamePage/GameContext/GameContext';
 import { useGamePageStyles } from '@page/GamePage/GamePageResource';
-import * as React from 'react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import CharacterImage from '@page/GamePage/component/CharacterImage';
 
 
@@ -20,9 +19,9 @@ const GamePage: React.FC = () => {
   const [gameData, controller] = useContext(GameContext);
 
   const renderMainCardContent = (): React.ReactElement => {
-    if (gameData.resource.currentEvent) {
+    if (gameData.resource.currentScene) {
       return <EventModule
-        currentEvent={gameData.resource.currentEvent}
+        currentScene={gameData.resource.currentScene}
         onNextScene={() => controller(nextScene())}
         onOptionClick={(idx: number) => controller(chooseSceneOption(idx))}
       />;

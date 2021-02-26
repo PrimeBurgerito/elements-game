@@ -3,7 +3,7 @@ import ButtonImageHover from '@images/button-hover.png';
 import ButtonImage from '@images/button.png';
 import HrImage from '@images/hr-golden.png';
 import { createMuiTheme } from '@material-ui/core';
-import * as React from 'react';
+import React from 'react';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
 const textStyle: React.CSSProperties = {

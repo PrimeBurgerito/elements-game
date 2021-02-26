@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Typography } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import ElementsCard from '@component/ui/ElementsCard';
@@ -10,7 +10,7 @@ type Props = {
   character: ICharacter;
 }
 
-const CharacterImage: React.FC<Props> = (props) => {
+const CharacterImage: React.FC<Props> = props => {
   const classes = useGamePageStyles({});
   const {fileName} = props.character.images.default;
   const {name} = props.character;

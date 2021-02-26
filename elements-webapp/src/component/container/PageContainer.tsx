@@ -6,8 +6,7 @@ import NewCharacterPage from '@page/NewCharacterPage/NewCharacterPage';
 import StartMenuPage from '@page/StartMenuPage/StartMenuPage';
 import { GameDataProvider } from '@shared/context/GameDataContext';
 import { IUser } from '@type/user';
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export enum CurrentPage {
   START_MENU, NEW_CHARACTER, GAME
@@ -18,13 +17,14 @@ const PageContainer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<CurrentPage>(CurrentPage.START_MENU);
 
   const isAuthenticated = (): boolean => Boolean(user && user.username);
+  const moveToStartMenu = (): void => setCurrentPage(CurrentPage.START_MENU);
 
   const userLoggedInPages = (): React.ReactElement => {
     switch (currentPage) {
       case CurrentPage.START_MENU:
         return <StartMenuPage setCurrentPage={setCurrentPage} />;
       case CurrentPage.NEW_CHARACTER:
-        return <GameDataProvider><NewCharacterPage setCurrentPage={setCurrentPage} /></GameDataProvider>;
+        return <GameDataProvider><NewCharacterPage onSuccess={moveToStartMenu} /></GameDataProvider>;
       case CurrentPage.GAME:
         return <GameContextProvider><GamePage /></GameContextProvider>;
       default:

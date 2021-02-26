@@ -1,5 +1,5 @@
 import { createStyles, Theme, WithStyles, withStyles } from '@material-ui/core';
-import * as React from 'react';
+import React from 'react';
 
 const styles = (theme: Theme) => createStyles({
   container: {
@@ -13,7 +13,7 @@ const styles = (theme: Theme) => createStyles({
 
 type Props = WithStyles<typeof styles>;
 
-export const RootContainer: React.FC<Props> = (props) => {
+const RootContainer: React.FC<Props> = props => {
   return <div id="container" className={props.classes.container}>{props.children}</div>;
 };
 

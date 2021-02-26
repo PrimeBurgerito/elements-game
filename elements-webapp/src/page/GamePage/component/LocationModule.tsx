@@ -6,33 +6,34 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { ILocation } from '@type/Location';
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export const useLocationModuleStyles = makeStyles({
   locationImage: {
-    width: '100%'
+    flexGrow: 1,
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'contain',
   },
   locationNameDivider: {
     width: '50%',
-    margin: 'auto',
-    marginBottom: 15
+    marginBottom: 15,
   },
   locationName: {
-    textAlign: 'center'
+    textAlign: 'center',
   }
 });
 
-interface ILocationModuleProps {
+type Props = {
   location: ILocation;
   onLocationChange: (name: string) => void;
-}
+};
 
-const LocationModule = (props: ILocationModuleProps): JSX.Element => {
+const LocationModule: React.FC<Props> = props => {
   const {locationName, locationNameDivider, locationImage} = useLocationModuleStyles({});
   const [nearbyLocationModalOpen, setNearbyLocationModalOpen] = useState(false);
 
-  const renderNearbyLocationsModal = (): JSX.Element => {
+  const renderNearbyLocationsModal = (): React.ReactElement => {
     return (
       <Dialog open={nearbyLocationModalOpen} onClose={() => setNearbyLocationModalOpen(false)}>
         <DialogTitle>Nearby locations</DialogTitle>
@@ -44,7 +45,7 @@ const LocationModule = (props: ILocationModuleProps): JSX.Element => {
   };
 
 
-  const renderLocationImage = (): JSX.Element => {
+  const renderLocationImage = (): React.ReactElement => {
     const openNearbyLocations = () => setNearbyLocationModalOpen(true);
     const {images} = props.location;
     const imageUrl = images && images.length ? `${MEDIA_URL}/${images[0].fileName}` : '';

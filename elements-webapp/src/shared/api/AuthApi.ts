@@ -3,7 +3,6 @@ import { AUTH_POST } from '@shared/api/request-template/authRequest';
 import { IJwt } from '@type/token';
 import { AxiosResponse } from 'axios';
 
-
 export default class AuthApi {
   public static getAuthenticationToken = async (username: string, password: string): Promise<IJwt> => {
     const response: AxiosResponse = await AUTH_POST({username, password});

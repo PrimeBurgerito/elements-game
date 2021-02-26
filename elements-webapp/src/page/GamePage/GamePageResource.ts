@@ -30,6 +30,9 @@ export const useGamePageStyles = makeStyles({
   },
   mainPanelGrid: {
     position: 'relative',
-    height: '100%'
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   }
 });
